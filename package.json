@@ -1,0 +1,32 @@
+{
+  "name": "uchat-back-end",
+  "version": "1.0.0",
+  "description": "有聊APP 后端",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://airingursb@github.com/oh-bear/uchat-back-end.git"
+  },
+  "keywords": [
+    "uchat"
+  ],
+  "author": "Airing",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/oh-bear/uchat-back-end/issues"
+  },
+  "homepage": "https://github.com/oh-bear/uchat-back-end#readme",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "debug": "^3.1.0",
+    "express": "^4.16.2",
+    "mongoose": "^4.12.5",
+    "utility": "^1.13.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
