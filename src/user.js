@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+const {KEY, checkToken} = require('./util');
 const utils = require('utility');
 const model = require('./model');
 const User = model.getModel('user');
@@ -36,8 +37,25 @@ router.post('/login', function (req, res) {
     if (!doc) {
       return res.json({code: 301, msg: '用户名或者密码错误'})
     }
-    return res.json({code: 0, data: doc})
+    const timestamp = new Date().getTime();
+    const token = md5((admin.id).toString() + timestamp.toString() + KEY);
+    return res.json({code: 0, data: doc, timestamp, token})
   })
+});
+
+router.get('/detail/:id', function (req, res) {
+  const {token, uid, timestamp} = req.query;
+  const {id} = req.params;
+  if (checkToken(uid, timestamp, token)) {
+    User.findOne({id}, _filter, function (err, doc) {
+      if (!doc) {
+        return res.json({code: 400, msg: '用户不存在'})
+      }
+      return res.json({code: 0, data: doc})
+    })
+  } else {
+    return res.json({code: 500, data: '密钥不正确'})
+  }
 });
 
 function md5Pwd(password) {
