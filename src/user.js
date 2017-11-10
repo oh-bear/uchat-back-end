@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const {KEY, checkToken} = require('./util');
-const utils = require('utility');
+const {KEY, checkToken, md5Pwd} = require('./util');
+
 const model = require('./model');
 const User = model.getModel('user');
 const _filter = {'password': 0, '__v': 0};
@@ -38,7 +38,7 @@ router.post('/login', function (req, res) {
       return res.json({code: 301, msg: '用户名或者密码错误'})
     }
     const timestamp = new Date().getTime();
-    const token = md5((admin.id).toString() + timestamp.toString() + KEY);
+    const token = md5Pwd((doc._id).toString() + timestamp.toString() + KEY);
     return res.json({code: 0, data: doc, timestamp, token})
   })
 });
@@ -47,7 +47,7 @@ router.get('/detail/:id', function (req, res) {
   const {token, uid, timestamp} = req.query;
   const {id} = req.params;
   if (checkToken(uid, timestamp, token)) {
-    User.findOne({id}, _filter, function (err, doc) {
+    User.findOne({_id: id}, _filter, function (err, doc) {
       if (!doc) {
         return res.json({code: 400, msg: '用户不存在'})
       }
@@ -57,10 +57,5 @@ router.get('/detail/:id', function (req, res) {
     return res.json({code: 500, data: '密钥不正确'})
   }
 });
-
-function md5Pwd(password) {
-  const salt = 'Airing_is_genius_3957x8yza6!@#IUHJh~~';
-  return utils.md5(utils.md5(password + salt))
-}
 
 module.exports = router;
