@@ -24,6 +24,7 @@
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "mongoose": "^4.12.5",
+    "socket.io": "^2.0.4",
     "utility": "^1.13.1"
   },
   "devDependencies": {

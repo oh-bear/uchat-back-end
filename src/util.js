@@ -1,9 +1,9 @@
-const utils = require('utility');
+const utils = require('utility')
 
-const KEY = 'airing_is_good#20171101@ursb.me';
+const KEY = 'airing_is_good#20171101@ursb.me'
 
 function md5Pwd(password) {
-  const salt = 'Airing_is_genius_3957x8yza6!@#IUHJh~~';
+  const salt = 'Airing_is_genius_3957x8yza6!@#IUHJh~~'
   return utils.md5(utils.md5(password + salt))
 }
 
@@ -18,4 +18,4 @@ module.exports = {
   KEY,
   md5Pwd,
   checkToken
-};
+}
