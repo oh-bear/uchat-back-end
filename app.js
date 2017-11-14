@@ -12,14 +12,18 @@ io.on('connection', function (socket) {
   console.log('connection')
   socket.on('sendmsg', function (data) {
     console.log(data)
-    io.emit('recvmsg', data)
+    const {from, to, msg} = data
+    const chatId = [from, to].sort().join('_')
+    Chat.create({chatId, from, to, text: msg}, function (err, doc) {
+      io.emit('recvmsg', Object.assign({}, doc._doc))
+    })
   })
 })
 
 app.use(bodyParser.json())
 app.use('/user', user)
 
-server.listen(9093,function(){
+server.listen(9093, function () {
   console.log('Node app start at port 9093')
 })
 

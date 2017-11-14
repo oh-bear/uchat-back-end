@@ -23,7 +23,7 @@ const models = {
     'read': {'type': String, 'require': true, 'default': false},
     'text': {'type': String, 'default': ''},
     'image': {'type': String, 'default': ''},
-    'createAt': {'type': Number, 'default': new Date().getTime()},
+    'createAt': {'type': Number, 'default': Date.now},
   }
 }
 
