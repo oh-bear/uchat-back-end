@@ -8,14 +8,18 @@ const app = express()
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
+const model = require('./src/model')
+const Chat = model.getModel('chat')
+
 io.on('connection', function (socket) {
   console.log('connection')
-  socket.on('sendmsg', function (data) {
-    console.log(data)
-    const {from, to, msg} = data
-    const chatId = [from, to].sort().join('_')
-    Chat.create({chatId, from, to, text: msg}, function (err, doc) {
-      io.emit('recvmsg', Object.assign({}, doc._doc))
+  socket.on('sendmsg', function (d) {
+    console.log(d)
+    const {data} = d
+    const {text, user, _id, t_user} = data
+    const chat_id = [user._id, t_user._id].sort().join('_')
+    Chat.create({_id, chat_id, from: user._id, to: t_user._id, text}, function (err, doc) {
+      io.emit('recvmsg', d)
     })
   })
 })
