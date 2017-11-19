@@ -18,18 +18,23 @@ router.get('/list', function (req, res) {
 router.post('/register', function (req, res) {
   const {account, password} = req.body
   User.findOne({account}, function (err, doc) {
-    if (doc) {
-      return res.json({code: 300, msg: '用户名重复'})
-    }
-
-    const userModel = new User({account, password: md5Pwd(password)})
-    userModel.save(function (e, d) {
-      if (e) {
-        return res.json({code: 500, msg: '后端出错了'})
+    if (!err) {
+      if (doc) {
+        return res.json({code: 300, msg: '用户名重复'})
       }
-      const {account, _id} = d
-      return res.json({code: 0, data: {account, _id}})
-    })
+
+      const userModel = new User({
+        account,
+        password: md5Pwd(password)
+      })
+      userModel.save(function (e, d) {
+        if (e) {
+          return res.json({code: 500, msg: '后端出错了'})
+        }
+        const {account, _id} = d
+        return res.json({code: 0, data: {account, _id}})
+      })
+    }
   })
 })
 
@@ -41,7 +46,7 @@ router.post('/login', function (req, res) {
     }
     const timestamp = new Date().getTime()
     const token = md5Pwd((doc._id).toString() + timestamp.toString() + KEY)
-    return res.json({code: 0, data: doc, uid: doc._id, timestamp, token})
+    return res.json({code: 0, data: Object.assign({doc}, {uid: doc._id, timestamp, token})})
   })
 })
 
@@ -56,7 +61,7 @@ router.get('/detail/:id', function (req, res) {
       return res.json({code: 0, data: doc})
     })
   } else {
-    return res.json({code: 500, data: '密钥不正确'})
+    return res.json({code: 500, msg: '密钥不正确'})
   }
 })
 

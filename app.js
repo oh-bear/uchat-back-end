@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const user = require('./src/user')
-
+const chat = require('./src/chat')
 const app = express()
 
 const server = require('http').Server(app)
@@ -16,9 +16,9 @@ io.on('connection', function (socket) {
   socket.on('sendmsg', function (d) {
     console.log(d)
     const {data} = d
-    const {text, user, _id, t_user} = data
+    const {text, user, _id, t_user, createdAt} = data
     const chat_id = [user._id, t_user._id].sort().join('_')
-    Chat.create({_id, chat_id, from: user._id, to: t_user._id, text}, function (err, doc) {
+    Chat.create({_id, chat_id, from: user._id, to: t_user._id, text, createdAt}, function (err, doc) {
       io.emit('recvmsg', d)
     })
   })
@@ -26,6 +26,7 @@ io.on('connection', function (socket) {
 
 app.use(bodyParser.json())
 app.use('/user', user)
+app.use('/chat', chat)
 
 server.listen(9093, function () {
   console.log('Node app start at port 9093')

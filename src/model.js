@@ -11,7 +11,7 @@ const models = {
     'password': {'type': String, 'require': true},
     'name': {'type': String, 'require': true, 'default': '小明'},
     'place': {'type': String},
-    'avatar': {'type': String},
+    'avatar': {'type': String, 'default': 'http://airing.ursb.me/image/avatar/40.png'},
     'desc': {'type': String},
     'gender': {'type': Number}
   },
@@ -24,7 +24,7 @@ const models = {
     'read': {'type': String, 'require': true, 'default': false},
     'text': {'type': String, 'default': ''},
     'image': {'type': String, 'default': ''},
-    'createAt': {'type': Number, 'default': Date.now},
+    'createdAt': {'type': Date},
   }
 }
 
