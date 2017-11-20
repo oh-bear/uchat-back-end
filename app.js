@@ -18,7 +18,14 @@ io.on('connection', function (socket) {
     const {data} = d
     const {text, user, _id, t_user, createdAt} = data
     const chat_id = [user._id, t_user._id].sort().join('_')
-    Chat.create({_id, chat_id, from: user._id, to: t_user._id, text, createdAt}, function (err, doc) {
+    Chat.create({
+      _id,
+      chat_id,
+      from: user._id,
+      to: t_user._id,
+      text, createdAt,
+      create_time: Date.now
+    }, function (err, doc) {
       io.emit('recvmsg', d)
     })
   })

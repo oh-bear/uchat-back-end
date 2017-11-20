@@ -9,10 +9,14 @@ const Chat = model.getModel('chat')
 
 const _filter = {'password': 0, '__v': 0}
 
+const env = process.env.NODE_ENV || 'production'
+
 router.get('/list', function (req, res) {
-  User.find({}, function (err, doc) {
-    return res.json(doc)
-  })
+  if (env === 'development') {
+    User.find({}, function (err, doc) {
+      return res.json(doc)
+    })
+  }
 })
 
 router.post('/register', function (req, res) {
@@ -25,7 +29,8 @@ router.post('/register', function (req, res) {
 
       const userModel = new User({
         account,
-        password: md5Pwd(password)
+        password: md5Pwd(password),
+        create_time: Date.now
       })
       userModel.save(function (e, d) {
         if (e) {
