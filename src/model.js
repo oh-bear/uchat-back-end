@@ -13,7 +13,8 @@ const models = {
     'place': {'type': String},
     'avatar': {'type': String, 'default': 'http://airing.ursb.me/image/avatar/40.png'},
     'desc': {'type': String},
-    'gender': {'type': Number}
+    'gender': {'type': Number},
+    'create_time': {'type': Number}
   },
   chat: {
     '_id': {'type': String, 'require': true},
@@ -24,7 +25,20 @@ const models = {
     'read': {'type': String, 'require': true, 'default': false},
     'text': {'type': String, 'default': ''},
     'image': {'type': String, 'default': ''},
-    'createdAt': {'type': Date},
+    'createdAt': {'type': Date},  // 配合前端库的数据格式需要
+    'create_time': {'type': Number}
+  },
+  moment: {
+    'user_id': {'type': String, 'require': true},
+    // 1：图文，2：语音，3：视频
+    'type': {'type': Number, 'require': true, 'default': 1},
+    'content': {'type': String, 'default': ''},
+    'image': {'type': String, 'default': ''},
+    'voice': {'type': String, 'default': ''},
+    'video': {'type': String, 'default': ''},
+    'geo': {'type': String, 'default': ''},
+    'top': {'type': Boolean, 'default': false},
+    'create_time': {'type': Number}
   }
 }
 
