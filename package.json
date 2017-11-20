@@ -4,7 +4,8 @@
   "description": "有聊APP 后端",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "dev": "NODE_ENV=development nodemon app.js"
   },
   "repository": {
     "type": "git",
