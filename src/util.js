@@ -11,6 +11,7 @@ const MESSAGE = {
   PARAMETER_ERROR : '参数错误',   // 404
   TOKEN_ERROR: '密钥不正确', // 500
   CODE_ERROR: '验证码错误', // 501
+  UID_ERROR: '伪造密钥嫌疑', // 502
   SERVER_ERROR: '后端出错了', // 505
 }
 

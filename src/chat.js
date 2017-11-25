@@ -15,6 +15,9 @@ router.get('/list/:id', function (req, res) {
   const {id} = req.params
   const {token, uid, timestamp} = req.query
 
+  if (id !== uid)
+    return res.json({code: 502, msg: MESSAGE.UID_ERROR})
+
   if (!checkToken(uid, timestamp, token))
     return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
 

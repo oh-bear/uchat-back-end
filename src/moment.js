@@ -14,18 +14,25 @@ const env = process.env.NODE_ENV || 'production'
 
 router.get('/playground', function (req, res) {
   const {token, uid, timestamp} = req.query
-  if (checkToken(uid, timestamp, token)) {
-    Moment.find({}, function (err, doc) {
 
-    })
-  } else return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+  if (!checkToken(uid, timestamp, token))
+    return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+
+  Moment.find({}, function (err, doc) {
+
+  })
 })
 
 router.get('/list/:id', function (req, res) {
   const {id} = req.params
   const {token, uid, timestamp} = req.query
+
+  if (id !== uid)
+    return res.json({code: 500, msg: MESSAGE.UID_ERROR})
+
   if (!checkToken(uid, timestamp, token))
     return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+
   Moment.find({user_id: id}, function (err, doc) {
     if (err) return res.json({code: 505, msg: MESSAGE.SERVER_ERROR})
     return res.json({code: 0, data: doc})
