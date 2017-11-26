@@ -12,6 +12,24 @@ const _filter = {'password': 0, '__v': 0}
 
 const env = process.env.NODE_ENV || 'production'
 
+ronter.post('/publish/:id', function (req, res) {
+  const {id} = req.params
+  const {token, uid, timestamp, type, geo, content, image, voice, video} = req.body
+
+  if (id !== uid)
+    return res.json({code: 500, msg: MESSAGE.UID_ERROR})
+
+  if (!checkToken(uid, timestamp, token))
+    return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+
+  Moment.create({
+    user_id: id, type, content, image, voice, video, geo,
+    create_time: Date.now()
+  }, function (err, doc) {
+    if (!err) return res.json({code: 0})
+  })
+})
+
 router.get('/playground', function (req, res) {
   const {token, uid, timestamp} = req.query
 
@@ -27,7 +45,7 @@ router.get('/list/:id', function (req, res) {
   const {id} = req.params
   const {token, uid, timestamp} = req.query
 
-  if (id !== uid)
+  if(id !== uid)
     return res.json({code: 500, msg: MESSAGE.UID_ERROR})
 
   if (!checkToken(uid, timestamp, token))
