@@ -11,6 +11,22 @@ const _filter = {'password': 0, '__v': 0}
 
 const env = process.env.NODE_ENV || 'production'
 
+/**
+ * 获取用户聊天联系人列表接口
+ *
+ * GET 方法调用，前端请求获取用户聊天联系人列表。
+ * 如在开发环境下，则获取全部用户数据，以便测试。
+ * 需要返回用户数据列表，及其对应的最后一条聊天记录数据与时间。
+ *
+ * @param   {string}  id          用户id，于params中，其余在query中
+ * @param   {string}  uid         用户id（密钥用）
+ * @param   {string}  timestamp   用户登录时间戳（密钥用）
+ * @param   {string}  token       用户登录TOKEN（密钥用）
+ * @return  {object}  {code, msg, data, docs}
+ *
+ * @date     2017-11-27
+ * @author   Airing<airing@ursb.me>
+ */
 router.get('/list/:id', function (req, res) {
   const {id} = req.params
   const {token, uid, timestamp} = req.query
@@ -48,6 +64,21 @@ router.get('/list/:id', function (req, res) {
   })
 })
 
+/**
+ * 获取用户同某人的聊天记录接口
+ *
+ * GET 方法调用，前端请求获取用户同某人的聊天记录。
+ *
+ * @param   {string}  from        用户id
+ * @param   {string}  to          聊天对象用户id
+ * @param   {string}  uid         用户id（密钥用）
+ * @param   {string}  timestamp   用户登录时间戳（密钥用）
+ * @param   {string}  token       用户登录TOKEN（密钥用）
+ * @return  {object}  {code, msg, data}
+ *
+ * @date     2017-11-27
+ * @author   Airing<airing@ursb.me>
+ */
 router.get('/record', function (req, res) {
   const {token, uid, timestamp, from, to} = req.query
 
@@ -62,6 +93,17 @@ router.get('/record', function (req, res) {
     })
 })
 
+/**
+ * 清空 chat 数据接口
+ *
+ * GET 方法调用，用于删除所有聊天记录。
+ * TODO：目前仅在开发环境下调用
+ *
+ * @return  {object}  {doc}
+ *
+ * @date     2017-11-27
+ * @author   Airing<airing@ursb.me>
+ */
 router.get('/remove', function (req, res) {
   if (env === 'development') {
     Chat.remove({}, function (err, doc) {
