@@ -38,6 +38,8 @@ const models = {
     'video': {'type': String, 'default': ''},
     'geo': {'type': String, 'default': ''},
     'top': {'type': Boolean, 'default': false},
+    'like': {'type': Number, 'default': 0},
+    'comment': {'type': Number, 'default': 0},
     'create_time': {'type': Number}
   }
 }
