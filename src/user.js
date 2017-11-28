@@ -101,7 +101,7 @@ router.post('/login', function (req, res) {
  *
  * @param   {string}  id          用户id，于params中，其余在query中
  * @param   {string}  uid         用户id（密钥用）
- * @param   {string}  timestamp   用户登录时间戳（密钥用）
+ * @param   {number}  timestamp   用户登录时间戳（密钥用）
  * @param   {string}  token       用户登录TOKEN（密钥用）
  * @return  {object}  {code, msg}
  *

@@ -20,7 +20,7 @@ const env = process.env.NODE_ENV || 'production'
  *
  * @param   {string}  id          用户id，于params中，其余在query中
  * @param   {string}  uid         用户id（密钥用）
- * @param   {string}  timestamp   用户登录时间戳（密钥用）
+ * @param   {number}  timestamp   用户登录时间戳（密钥用）
  * @param   {string}  token       用户登录TOKEN（密钥用）
  * @return  {object}  {code, msg, data, docs}
  *
@@ -72,7 +72,7 @@ router.get('/list/:id', function (req, res) {
  * @param   {string}  from        用户id
  * @param   {string}  to          聊天对象用户id
  * @param   {string}  uid         用户id（密钥用）
- * @param   {string}  timestamp   用户登录时间戳（密钥用）
+ * @param   {number}  timestamp   用户登录时间戳（密钥用）
  * @param   {string}  token       用户登录TOKEN（密钥用）
  * @return  {object}  {code, msg, data}
  *
