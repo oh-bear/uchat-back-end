@@ -41,6 +41,11 @@ const models = {
     'like': {'type': Number, 'default': 0},
     'comment': {'type': Number, 'default': 0},
     'create_time': {'type': Number}
+  },
+  like: {
+    'user_id': {'type': String, 'require': true},
+    'moment_id': {'type': String, 'require': true},
+    'create_time': {'type': Number}
   }
 }
 
