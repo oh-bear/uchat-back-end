@@ -8,6 +8,7 @@ const User = model.getModel('user')
 const Chat = model.getModel('chat')
 const Moment = model.getModel('moment')
 const Like = model.getModel('like')
+const Comment = model.getModel('comment')
 
 const _filter = {'password': 0, '__v': 0}
 
@@ -30,8 +31,8 @@ const env = process.env.NODE_ENV || 'production'
  * @param   {string}  video       moment的视频url
  * @return  {object}  {code, msg}
  *
- * @date     2017-11-27
- * @author   Airing<airing@ursb.me>
+ * @date    2017-11-27
+ * @author  Airing<airing@ursb.me>
  */
 ronter.post('/publish/:id', function (req, res) {
   const {id} = req.params
@@ -56,15 +57,15 @@ ronter.post('/publish/:id', function (req, res) {
  *
  * POST 方法调用
  * 如果未点赞，则向like中录入数据，同时将moment的like字段自增1；
- * 否则删除like中的字段，并同时将moment的like字段自增1。
+ * 否则删除like中的记录，并同时将moment的like字段自增1。
  *
  * @param   {string}  id          用户id，于params中，其余在body中
  * @param   {string}  uid         用户id（密钥用）
  * @param   {number}  timestamp   用户登录时间戳（密钥用）
  * @param   {string}  moment_id   moment的id
  *
- * @date     2017-11-29
- * @author   Airing<airing@ursb.me>
+ * @date    2017-11-29
+ * @author  Airing<airing@ursb.me>
  */
 ronter.post('/like/:id', function (req, res) {
   const {id} = req.params
@@ -112,6 +113,47 @@ ronter.post('/like/:id', function (req, res) {
   })
 })
 
+/**
+ * 发布评论接口
+ *
+ * POST 方法调用
+ * 向comment中录入数据，同时将moment的comment字段自增1
+ *
+ * @param   {string}  id          用户id，于params中，其余在body中
+ * @param   {string}  uid         用户id（密钥用）
+ * @param   {number}  timestamp   用户登录时间戳（密钥用）
+ * @param   {string}  moment_id   moment的id
+ * @param   {string}  content     评论的内容
+ * @param   {string}  retry       回复用户的id，如果非回复，此值默认为-1
+ * @date    2017-11-30
+ * @author  Airing<airing@ursb.me>
+ */
+ronter.post('/comment/:id', function (req, res) {
+  const {id} = req.params
+  const {token, uid, timestamp, moment_id, content, retry} = req.body
+
+  if (id !== uid)
+    return res.json({code: 502, msg: MESSAGE.UID_ERROR})
+
+  if (!checkToken(uid, timestamp, token))
+    return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+
+  const commentModel = {
+    user_id: id,
+    moment_id,
+    content,
+    retry,
+    create_time: Date.now()
+  }
+  commentModel.save(function (e, d) {
+    Moment.update({_id: moment_id}, {
+      $inc: {comment: 1}
+    }, function (e, d) {
+      return res.json({code: 0})
+    })
+  })
+})
+
 
 /**
  * 获取 moments 列表接口
@@ -123,8 +165,8 @@ ronter.post('/like/:id', function (req, res) {
  * @param   {string}  token       用户登录TOKEN（密钥用）
  * @return  {object}  {code, msg}
  *
- * @date     2017-11-27
- * @author   Airing<airing@ursb.me>
+ * @date    2017-11-27
+ * @author  Airing<airing@ursb.me>
  */
 router.get('/playground', function (req, res) {
   const {token, uid, timestamp} = req.query
@@ -148,8 +190,8 @@ router.get('/playground', function (req, res) {
  * @param   {string}  token       用户登录TOKEN（密钥用）
  * @return  {object}  {code, msg}
  *
- * @date     2017-11-27
- * @author   Airing<airing@ursb.me>
+ * @date    2017-11-27
+ * @author  Airing<airing@ursb.me>
  */
 router.get('/list/:id', function (req, res) {
   const {id} = req.params
@@ -176,8 +218,8 @@ router.get('/list/:id', function (req, res) {
  *
  * @return  {object}  {doc}
  *
- * @date     2017-11-27
- * @author   Airing<airing@ursb.me>
+ * @date    2017-11-27
+ * @author  Airing<airing@ursb.me>
  */
 router.get('/remove', function (req, res) {
   if (env === 'development') {

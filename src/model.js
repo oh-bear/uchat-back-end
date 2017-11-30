@@ -46,6 +46,13 @@ const models = {
     'user_id': {'type': String, 'require': true},
     'moment_id': {'type': String, 'require': true},
     'create_time': {'type': Number}
+  },
+  comment: {
+    'user_id': {'type': String, 'require': true},
+    'moment_id': {'type': String, 'require': true},
+    'content': {'type': String, 'require': true},
+    'retry_id': {'type': String},
+    'create_time': {'type': Number}
   }
 }
 
