@@ -145,9 +145,42 @@ ronter.post('/comment/:id', function (req, res) {
     retry,
     create_time: Date.now()
   }
-  commentModel.save(function (e, d) {
+  Comment.create(commentModel ,function (err, doc) {
     Moment.update({_id: moment_id}, {
       $inc: {comment: 1}
+    }, function (e, d) {
+      return res.json({code: 0})
+    })
+  })
+})
+
+/**
+ * 删除评论接口
+ *
+ * GET 方法调用
+ * 将comment中记录删除，同时将moment的comment字段自减1
+ *
+ * @param   {string}  id          用户id，于params中，其余在body中
+ * @param   {string}  uid         用户id（密钥用）
+ * @param   {number}  timestamp   用户登录时间戳（密钥用）
+ * @param   {string}  moment_id   moment的id
+ * @param   {string}  comment_id  comment的id
+ * @date    2017-11-30
+ * @author  Airing<airing@ursb.me>
+ */
+ronter.get('/remove_comment/:id', function (req, res) {
+  const {id} = req.params
+  const {token, uid, timestamp, comment_id, moment_id} = req.body
+
+  if (id !== uid)
+    return res.json({code: 502, msg: MESSAGE.UID_ERROR})
+
+  if (!checkToken(uid, timestamp, token))
+    return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
+
+  Comment.remove({id: comment_id} ,function (err, doc) {
+    Moment.update({_id: moment_id}, {
+      $inc: {comment: -1}
     }, function (e, d) {
       return res.json({code: 0})
     })
