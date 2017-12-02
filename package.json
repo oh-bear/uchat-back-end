@@ -21,12 +21,14 @@
   },
   "homepage": "https://github.com/oh-bear/uchat-back-end#readme",
   "dependencies": {
+    "babel-eslint": "^8.0.2",
     "body-parser": "^1.18.2",
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "mongoose": "^4.12.5",
     "socket.io": "^2.0.4",
-    "utility": "^1.13.1"
+    "utility": "^1.13.1",
+    "eslint": "^4.12.1"
   },
   "devDependencies": {
     "nodemon": "^1.12.1"

@@ -47,7 +47,7 @@ router.get('/list/:id', function (req, res) {
     })
 
     if (env === 'production') {
-      const user_ids = doc.map((item, index) => {
+      const user_ids = doc.map((item) => {
         return item.to
       })
       User.find({_id: user_ids}, _filter, function (err, users) {

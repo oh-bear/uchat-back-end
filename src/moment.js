@@ -4,13 +4,9 @@ const router = express.Router()
 const {MESSAGE, checkToken} = require('./util')
 
 const model = require('./model')
-const User = model.getModel('user')
-const Chat = model.getModel('chat')
 const Moment = model.getModel('moment')
 const Like = model.getModel('like')
 const Comment = model.getModel('comment')
-
-const _filter = {'password': 0, '__v': 0}
 
 const env = process.env.NODE_ENV || 'production'
 
@@ -47,7 +43,7 @@ ronter.post('/publish/:id', function (req, res) {
   Moment.create({
     user_id: id, type, content, image, voice, video, geo,
     create_time: Date.now()
-  }, function (err, doc) {
+  }, function (err) {
     if (!err) return res.json({code: 0})
   })
 })
@@ -89,10 +85,10 @@ ronter.post('/like/:id', function (req, res) {
           moment_id,
           create_time: Date.now()
         }
-        likeModel.save(function (e, d) {
+        likeModel.save(function () {
           Moment.update({_id: moment_id}, {
             $inc: {like: 1}
-          }, function (e, d) {
+          }, function () {
             return res.json({code: 0})
           })
         })
@@ -101,10 +97,10 @@ ronter.post('/like/:id', function (req, res) {
         Like.remove({
           user_id: id,
           moment_id
-        }, function (e, d) {
+        }, function () {
           Moment.update({_id: moment_id}, {
             $inc: {like: -1}
-          }, function (e, d) {
+          }, function () {
             return res.json({code: 0})
           })
         })
@@ -145,10 +141,10 @@ ronter.post('/comment/:id', function (req, res) {
     retry,
     create_time: Date.now()
   }
-  Comment.create(commentModel ,function (err, doc) {
+  Comment.create(commentModel, function () {
     Moment.update({_id: moment_id}, {
       $inc: {comment: 1}
-    }, function (e, d) {
+    }, function () {
       return res.json({code: 0})
     })
   })
@@ -178,10 +174,10 @@ ronter.get('/remove_comment/:id', function (req, res) {
   if (!checkToken(uid, timestamp, token))
     return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
 
-  Comment.remove({id: comment_id} ,function (err, doc) {
+  Comment.remove({id: comment_id}, function () {
     Moment.update({_id: moment_id}, {
       $inc: {comment: -1}
-    }, function (e, d) {
+    }, function () {
       return res.json({code: 0})
     })
   })
@@ -207,7 +203,7 @@ router.get('/playground', function (req, res) {
   if (!checkToken(uid, timestamp, token))
     return res.json({code: 500, msg: MESSAGE.TOKEN_ERROR})
 
-  Moment.find({}, function (err, doc) {
+  Moment.find({}, function () {
 
   })
 })

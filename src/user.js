@@ -5,7 +5,6 @@ const {KEY, MESSAGE, checkToken, md5Pwd} = require('./util')
 
 const model = require('./model')
 const User = model.getModel('user')
-const Chat = model.getModel('chat')
 
 const _filter = {'password': 0, '__v': 0}
 

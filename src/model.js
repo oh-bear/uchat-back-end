@@ -25,7 +25,7 @@ const models = {
     'read': {'type': String, 'require': true, 'default': false},
     'text': {'type': String, 'default': ''},
     'image': {'type': String, 'default': ''},
-    'createdAt': {'type': Date},  // 配合前端库的数据格式需要
+    'createdAt': {'type': Date}, // 配合前端库的数据格式需要
     'create_time': {'type': Number}
   },
   moment: {
