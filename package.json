@@ -4,8 +4,10 @@
   "description": "有聊APP 后端",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "dev": "NODE_ENV=development nodemon app.js"
+    "start": "gulp",
+    "dev": "gulp dev",
+    "build": "gulp transform",
+    "server": "nodemon dist/app.js --exec babel-node"
   },
   "repository": {
     "type": "git",
@@ -21,16 +23,29 @@
   },
   "homepage": "https://github.com/oh-bear/uchat-back-end#readme",
   "dependencies": {
-    "babel-eslint": "^8.0.2",
     "body-parser": "^1.18.2",
     "debug": "^3.1.0",
     "express": "^4.16.2",
     "mongoose": "^4.12.5",
     "socket.io": "^2.0.4",
-    "utility": "^1.13.1",
-    "eslint": "^4.12.1"
+    "utility": "^1.13.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^4.12.1",
+    "gulp": "^3.9.0",
+    "gulp-babel": "^7.0.0",
+    "gulp-cli": "^1.4.0",
+    "gulp-eslint": "^4.0.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-watch": "^4.3.11",
     "nodemon": "^1.12.1"
   }
 }

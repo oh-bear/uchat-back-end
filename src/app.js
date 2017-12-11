@@ -1,14 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const user = require('./src/user')
-const chat = require('./src/chat')
+const user = require('./user')
+const chat = require('./chat')
 const app = express()
 
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
-const model = require('./src/model')
+const model = require('./model')
 const Chat = model.getModel('chat')
 
 io.on('connection', function (socket) {
