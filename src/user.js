@@ -52,15 +52,14 @@ router.post('/register', function (req, res) {
       if (doc) {
         return res.json({code: 300, msg: MESSAGE.USER_ALREADY_EXIST})
       }
-
       const userModel = new User({
         account,
         password: md5Pwd(password),
-        create_time: Date.now
+        create_time: Date.now()
       })
       userModel.save(function (e, d) {
         if (e) {
-          return res.json({code: 505, msg: MESSAGE.SERVER_ERROR})
+          return res.json({code: 505, e, msg: MESSAGE.SERVER_ERROR})
         }
         const {account, _id} = d
         return res.json({code: 0, data: {account, _id}})

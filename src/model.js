@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.Promise = global.Promise
 const DB_URL = 'mongodb://localhost:27017/uchat'
 
 mongoose.connect(DB_URL, {
