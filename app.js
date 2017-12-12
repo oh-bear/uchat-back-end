@@ -1,14 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
-const user = require('./user')
-const chat = require('./chat')
+const user = require('./src/user')
+const chat = require('./src/chat')
 const app = express()
 
 const server = require('http').Server(app)
 const io = require('socket.io')(server)
 
-const model = require('./model')
+const model = require('./src/model')
 const Chat = model.getModel('chat')
 
 io.on('connection', function (socket) {
@@ -25,7 +25,7 @@ io.on('connection', function (socket) {
       to: t_user._id,
       text, createdAt,
       create_time: Date.now
-    }, function (err, doc) {
+    }, function () {
       io.emit('recvmsg', d)
     })
   })
